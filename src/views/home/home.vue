@@ -31,7 +31,7 @@ export default {
       }
     },
     created() {
-      //获取数据初始化swiper插件
+      //获取数据 初始化swiper插件
       this.gethomedata();
       this.gethomelist("pop",1);
 
