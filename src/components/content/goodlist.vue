@@ -7,7 +7,7 @@
  import googlistitem from "@/components/content/goodlistitem"
 export default {
     components:{
-        googlistitem
+        googlistitem //注释
     },
     props: {
       lists: {
