@@ -6,14 +6,15 @@
       <homeswiper :banner="banner"></homeswiper>
       <homenav :recomend="recomend"></homenav>
       <popular></popular>
-      <navtabbar :navtabbar="['流行','新款','精选']"></navtabbar>
-      <div style="height:600px"></div>
+      <navtabbar :navtabbar="['流行','新款','精选']"  @tabact="changedata"></navtabbar>
+      <goodlist :lists="showGoods"></goodlist>
   </div>
 </template>
 <script>
   //公共组件
    import navbar from '@/components/common/navbar/navbar'
    import navtabbar from '@/components/content/navtabbar'
+   import goodlist from '@/components/content/goodlist'
   //子组件
    import homeswiper from './homechild/homeswiper'
    import homenav from './homechild/homenav'
@@ -22,27 +23,54 @@
    import {gethomedata,gethomelist} from '@/network/home'
 export default {
     components:{
-      navbar,homeswiper,homenav,popular,navtabbar
+      navbar,homeswiper,homenav,popular,navtabbar,goodlist
     } ,
     data() {
       return {
         banner:[],
         recomend:[],
+        list:{
+          pop:{num:0,goods:[]},
+          new:{num:0,goods:[]},
+          sell:{num:0,goods:[]},
+        },
+         currentType: 'pop',
       }
     },
+     computed: {
+      showGoods() {
+        return this.list[this.currentType].goods
+      }
+    },   
     created() {
       //获取数据 初始化swiper插件
       this.gethomedata();
       this.gethomelist("pop",1);
+      this.gethomelist("new",1);
+      this.gethomelist("sell",1);
 
     },
     methods: {
+      //监听事件
+      changedata(indexs){
+        switch (indexs) {
+          case 0:
+            this.currentType = 'pop'
+            break
+          case 1:
+            this.currentType = 'new'
+            break
+          case 2:
+            this.currentType = 'sell'
+            break
+        }
+      },
+      //获取数据
           gethomedata(){
             gethomedata().then(res=>{
               this.banner=res.data.banner.list;
               this.recomend=res.data.recommend.list;
               this.$nextTick(()=>{
-                        console.log(res);
                   var swiper = new Swiper('.swiper-container', {
                     autoplay:true,
                     pagination: {
@@ -55,15 +83,15 @@ export default {
             });            
           } ,
           gethomelist(type){
-            gethomelist(type,page).then(res=>{
-               console.log(res)               
+            const goodspage=this.list[type].num+1           
+            gethomelist(type,goodspage).then(res=>{
+               this.list[type].goods.push(res.data.list) 
+               this.list[type].num+=1        
             });
           }
 
     },
 }      
-</script>
-}
 </script>
 <style lang="scss">
     .home{

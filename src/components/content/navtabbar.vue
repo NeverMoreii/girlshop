@@ -10,12 +10,13 @@
 export default {
     data() {
         return {
-            tabactive:0
+            tabactive:0,
         }
     },
     methods: {
         tabactives(indexs){
-            this.tabactive=indexs
+            this.tabactive=indexs;
+            this.$emit('tabact',indexs);
         }
     },
     props:{
@@ -31,7 +32,8 @@ export default {
         line-height: .4rem;
         height: .4rem;
         position: sticky;
-        top:.44rem;
+        z-index: 12;
+        top:.43rem;
         color:#666666 ;
         background:white;
         .navtabbaritems{
