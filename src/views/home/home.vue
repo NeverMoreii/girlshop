@@ -3,11 +3,14 @@
       <navbar class="homenav">
           <p slot="center">购物街</p>
       </navbar>
+      <scroll ref="scroll" >      
       <homeswiper :banner="banner"></homeswiper>
       <homenav :recomend="recomend"></homenav>
-      <popular></popular>
-      <navtabbar :navtabbar="['流行','新款','精选']"  @tabact="changedata"></navtabbar>
-      <goodlist :lists="showGoods"></goodlist>
+      <popular></popular>        
+         <navtabbar :navtabbar="['流行','新款','精选']"  @tabact="changedata"></navtabbar>       
+         <goodlist :lists="showGoods"></goodlist>
+      </scroll>
+      <backtop @click.native="backClick"></backtop>
   </div>
 </template>
 <script>
@@ -15,6 +18,8 @@
    import navbar from '@/components/common/navbar/navbar'
    import navtabbar from '@/components/content/navtabbar'
    import goodlist from '@/components/content/goodlist'
+   import scroll from '@/components/common/scroll/Scroll'
+   import backtop from '@/components/content/backTop/BackTop'
   //子组件
    import homeswiper from './homechild/homeswiper'
    import homenav from './homechild/homenav'
@@ -23,7 +28,7 @@
    import {gethomedata,gethomelist} from '@/network/home'
 export default {
     components:{
-      navbar,homeswiper,homenav,popular,navtabbar,goodlist
+      navbar,homeswiper,homenav,popular,navtabbar,goodlist,scroll,backtop,
     } ,
     data() {
       return {
@@ -88,7 +93,12 @@ export default {
                this.list[type].goods.push(res.data.list) 
                this.list[type].num+=1        
             });
-          }
+          },
+          backClick() {
+            //  this.$refs.scroll.scrollTo(0, 0)
+            // this.$refs.scroll.scroll.scrollTo(0,0,500)
+            this.$refs.scroll.scrollTo(0,0,500)
+         },
 
     },
 }      
@@ -127,5 +137,8 @@ export default {
       -webkit-align-items: center;
       align-items: center;
     }      
+    }
+    .wrapper{
+      height: 4.81rem;
     }
 </style>
