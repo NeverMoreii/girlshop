@@ -12,7 +12,7 @@
   export default {
     name: "Scroll",
     props: {
-      probeType: {
+      probetype: {
         type: Number,
         default: 0
       },
@@ -31,13 +31,11 @@
       // 1.创建BScroll对象
       this.scroll = new BScroll(this.$refs.wrapper, {
         click: true,
-        probeType: this.probeType,
+        probeType: this.probetype,
         pullUpLoad: this.pullUpLoad
       })
-
       // 2.监听滚动的位置
       this.scroll.on('scroll', (position) => {
-        // console.log(position);
         this.$emit('scroll', position)
       })
 

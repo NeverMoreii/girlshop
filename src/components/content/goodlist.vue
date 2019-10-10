@@ -1,6 +1,6 @@
 <template>
     <div class="goodlist">
-        <googlistitem v-for="goods in lists[0]" :key="goods.iid"  :goods="goods"></googlistitem>
+        <googlistitem v-for="goods in lists"  :key="goods.id"  :goods="goods"></googlistitem>
     </div>
 </template>
 <script>

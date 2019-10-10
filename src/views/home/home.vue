@@ -3,14 +3,20 @@
       <navbar class="homenav">
           <p slot="center">购物街</p>
       </navbar>
-      <scroll ref="scroll" >      
+      <scroll 
+          ref="scroll"
+          :probetype="3"
+          @scroll="scroll"
+          @pullingUp="loadmore"
+          :pull-up-load=true
+           >      
       <homeswiper :banner="banner"></homeswiper>
       <homenav :recomend="recomend"></homenav>
       <popular></popular>        
          <navtabbar :navtabbar="['流行','新款','精选']"  @tabact="changedata"></navtabbar>       
          <goodlist :lists="showGoods"></goodlist>
       </scroll>
-      <backtop @click.native="backClick"></backtop>
+      <backtop @click.native="backClick" v-show="isshow"></backtop>
   </div>
 </template>
 <script>
@@ -35,11 +41,12 @@ export default {
         banner:[],
         recomend:[],
         list:{
-          pop:{num:0,goods:[]},
-          new:{num:0,goods:[]},
-          sell:{num:0,goods:[]},
+          'pop':{num:0,goods:[]},
+          'new':{num:0,goods:[]},
+          'sell':{num:0,goods:[]},
         },
          currentType: 'pop',
+         isshow:false,
       }
     },
      computed: {
@@ -90,8 +97,9 @@ export default {
           gethomelist(type){
             const goodspage=this.list[type].num+1           
             gethomelist(type,goodspage).then(res=>{
-               this.list[type].goods.push(res.data.list) 
-               this.list[type].num+=1        
+               this.list[type].goods.push(...res.data.list) 
+               this.list[type].num+=1  
+               this.$refs.scroll.finishPullUp()   
             });
           },
           backClick() {
@@ -99,6 +107,17 @@ export default {
             // this.$refs.scroll.scroll.scrollTo(0,0,500)
             this.$refs.scroll.scrollTo(0,0,500)
          },
+         scroll(position){
+           if(position.y<-2000){
+             this.isshow=true
+           }else{
+             this.isshow=false
+           }
+         },
+         loadmore(){
+           this.gethomelist(this.currentType)
+           console.log(1)
+         }
 
     },
 }      
