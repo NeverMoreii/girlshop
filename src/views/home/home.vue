@@ -116,7 +116,7 @@ export default {
          },
          loadmore(){
            this.gethomelist(this.currentType)
-           console.log(1)
+           console.log("上拉加载")
          }
 
     },
@@ -131,6 +131,9 @@ export default {
         top:0;
         z-index: 10;
         width: 100%;
+        p{
+          flex: 1;
+        }
       }
       .swiper-slide{
         img{

@@ -1,5 +1,5 @@
 <template>
-  <div class="goods-item">
+  <div class="goods-item" @click="todetail">
     <img :src="goods.show.img" alt="">
     <div class="goods-info">
       <p>{{goods.title}}</p>
@@ -9,7 +9,13 @@
   </div>
 </template>
 <script>
+
 export default {
+  data() {
+    return {
+    
+    }
+  },
     props: {
       goods: {
         type:Object,
@@ -18,6 +24,12 @@ export default {
         }
       }
     } ,
+    methods: {
+      todetail(){
+        this.$router.push('/detail/' + this.goods.iid)
+        //数据接口 http://123.207.32.32:8000/api/v1/detail?iid=1m7s9c4
+      }
+    },
 }
 </script>
 
